@@ -65,7 +65,7 @@ public class ExcelReader
 	   
 		//date format
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-		System.out.println("convert to string");
+		
 				
 		switch (cell.getCellTypeEnum()) 
 	    {
@@ -133,7 +133,6 @@ public class ExcelReader
 			rd.setMailing(cell);
 			break;
 		default:
-			System.out.printf("Issue with cell %d", count);
 			break;
 		}
 	}
