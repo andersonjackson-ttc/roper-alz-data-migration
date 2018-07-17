@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 
 public class ExcelReader
@@ -16,6 +18,7 @@ public class ExcelReader
 	public void createWorkbook () throws InvalidFormatException, IOException
 	{
 	
+		
 		
 		//create workbook
 		Workbook workbook = WorkbookFactory.create(new File(XLSX_FILE_PATH));
@@ -37,7 +40,7 @@ public class ExcelReader
 			for (Cell cell: row)
 			{
 				//printCellValue(cell);
-				storeRecord(rd,cell, cellCount);
+				storeRecord(rd,convertCellToString(cell), cellCount);
 				cellCount++;
 			}
 			writeRecord(rd);
@@ -57,86 +60,77 @@ public class ExcelReader
 		workbook.close();
 	}
 	
-	private static void printCellValue(Cell cell) 
+	private static String convertCellToString(Cell cell) 
 	{
-	    switch (cell.getCellTypeEnum()) 
+	   
+		//date format
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+		System.out.println("convert to string");
+				
+		switch (cell.getCellTypeEnum()) 
 	    {
 	        case BOOLEAN:
-	            System.out.print(cell.getBooleanCellValue());
-	            break;
+	            return String.valueOf(cell.getBooleanCellValue());
 	        case STRING:
-	            System.out.print(cell.getRichStringCellValue().getString());
-	            break;
+	            return cell.getRichStringCellValue().getString();
 	        case NUMERIC:
 	            if (DateUtil.isCellDateFormatted(cell)) {
-	                System.out.print(cell.getDateCellValue());
+	                return df.format(cell.getDateCellValue());
 	            } else {
-	                System.out.print(cell.getNumericCellValue());
+	                return String.valueOf(cell.getNumericCellValue());
 	            }
-	            break;
-	        case FORMULA:
-	            System.out.print(cell.getCellFormula());
-	            break;
 	        case BLANK:
-	            System.out.print("");
-	            break;
+	            return " ";
 	        default:
-	            System.out.print("");
+	            return " ";
 	    }
-
-	    System.out.print("\t");
 	}
 	
-	public static void storeRecord(ExistingParticipantRecord rd, Cell cell, int count)
+	public static void storeRecord(ExistingParticipantRecord rd, String cell, int count)
 	{
 		switch (count)
 		{
 		case 0:
-			rd.setLastName(cell.getRichStringCellValue().getString());
+			rd.setLastName(cell);
 			break;
 		case 1:
-			rd.setFirstName(cell.getRichStringCellValue().getString());
+			rd.setFirstName(cell);
 			break;
 		case 2:
-			rd.setRace(cell.getRichStringCellValue().getString());
+			rd.setRace(cell);
 			break;
 		case 3:
-			rd.setGender(cell.getRichStringCellValue().getString());
+			rd.setGender(cell);
 			break;
 		case 4:
-			rd.setDob(cell.getDateCellValue());
+			rd.setDob(cell);
 			break;
 		case 5:
-			rd.setAddress(cell.getRichStringCellValue().getString());
+			rd.setAddress(cell);
 			break;
 		case 6:
-			rd.setEmail(cell.getRichStringCellValue().getString());
+			rd.setEmail(cell);
 			break;
 		case 7:
-			rd.setPhone(cell.getRichStringCellValue().getString());
+			rd.setPhone(cell);
 			break;
 		case 8:
-			rd.setScores(cell.getRichStringCellValue().getString());
+			rd.setScores(cell);
 			break;
 		case 10:
-			if (cell.getCellTypeEnum() == CellType.NUMERIC)
-			{
-				System.out.println("oops");
-				break;
-			}
-			rd.setStatus(cell.getRichStringCellValue().getString());
+			rd.setStatus(cell);
 			break;
 		case 11:
-			rd.setPcp(cell.getRichStringCellValue().getString());
+			rd.setPcp(cell);
 			break;
 		case 12:
-			rd.setSpec(cell.getRichStringCellValue().getString());
+			rd.setSpec(cell);
 			break;
 		case 13:
-			rd.setReferal(cell.getRichStringCellValue().getString());
+			rd.setReferal(cell);
 			break;
 		case 14:
-			rd.setMailing(cell.getRichStringCellValue().getString());
+			rd.setMailing(cell);
 			break;
 		default:
 			System.out.printf("Issue with cell %d", count);
@@ -147,6 +141,7 @@ public class ExcelReader
 	public static boolean writeRecord(ExistingParticipantRecord rd)
 	{
 		String file = "RoperSpreadSheet.xlsx";
+		System.out.println("Write record");
 		
 		try
 		{
@@ -158,6 +153,12 @@ public class ExcelReader
 			int rowCount = sheet.getLastRowNum();
 			
 			Row row = sheet.createRow(++rowCount);
+			
+			
+			CellStyle cellStyle = workbook.createCellStyle();
+			CreationHelper createHelper = workbook.getCreationHelper();
+			cellStyle.setDataFormat(createHelper.createDataFormat().getFormat("MM/dd/yyyy"));
+			
 			
 			Cell cell = row.createCell(1);
 			cell.setCellValue(rd.getLastName());

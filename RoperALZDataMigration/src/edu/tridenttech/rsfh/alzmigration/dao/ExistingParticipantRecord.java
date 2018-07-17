@@ -8,7 +8,7 @@ public class ExistingParticipantRecord
 	private String firstName;
 	private String race;
 	private String gender;
-	private Date dob;
+	private String dob;
 	private String address;
 	private String email;
 	private String phone;
@@ -60,12 +60,12 @@ public class ExistingParticipantRecord
 		return gender;
 	}
 	
-	public void setDob(Date field)
+	public void setDob(String field)
 	{
 		dob = field;
 	}
 	
-	public Date getDob()
+	public String getDob()
 	{
 		return dob;
 	}
