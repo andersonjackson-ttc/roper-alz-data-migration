@@ -126,6 +126,20 @@ public class ExcelReader
 		}
 	}
 	
+	public boolean hasMoreRecords (Workbook wb,int nextRowCount)
+	{
+		Sheet sheet = wb.getSheetAt(0);
+		
+		if (nextRowCount > sheet.getLastRowNum())
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	
 	public static boolean writeRecord(ExistingParticipantRecord rd)
 	{
 		String file = "RoperSpreadSheet.xlsx";
