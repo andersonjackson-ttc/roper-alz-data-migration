@@ -1,5 +1,6 @@
 package edu.tridenttech.rsfh.alzmigration.dao;
 
+
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 
@@ -13,51 +14,39 @@ import java.text.SimpleDateFormat;
 
 public class ExcelReader
 {
-	public static final String XLSX_FILE_PATH = "fakeDatabase1.xlsx";
-	
-	public void createWorkbook () throws InvalidFormatException, IOException
+		
+	public Workbook createWorkbook (String filePathName) throws IOException, InvalidFormatException
 	{
-	
-		
-		
 		//create workbook
-		Workbook workbook = WorkbookFactory.create(new File(XLSX_FILE_PATH));
+		Workbook workbook = WorkbookFactory.create(new File(filePathName));
+		return workbook;
+	}
 		
+	
+	public ExistingParticipantRecord getNextRecord(Workbook wb, int rowCount)
+	{
 		//Get main data sheet
-		Sheet sheet = workbook.getSheetAt(0);
+		Sheet sheet = wb.getSheetAt(0);
 		
 		ExistingParticipantRecord rd = new ExistingParticipantRecord();
 		
-		
-		//Use for each 
-		System.out.println("Go through rows and columns");
-		int count = 0;
-		int rowCount = 0;
+		Row row = sheet.getRow(rowCount);
 		int cellCount = 0;
 		
-		for (Row row: sheet) 
+		for (Cell cell: row)
 		{
-			for (Cell cell: row)
-			{
-				//printCellValue(cell);
-				storeRecord(rd,convertCellToString(cell), cellCount);
-				cellCount++;
-			}
-			writeRecord(rd);
-			rowCount++;
-			cellCount = 0;
-			count++;
-			if (count > 12)
-			{
-				break;
-			}
-			
+			//printCellValue(cell);
+			storeRecord(rd,convertCellToString(cell), cellCount);
+			cellCount++;
 		}
 		
-		System.out.println(rd.getLastName());
+		return rd;
+	}
 		
+	public void closeWorkbook(Workbook wb) throws IOException
+	{
 		//close workbook
-		workbook.close();
+		wb.close();
 	}
 	
 	private static String convertCellToString(Cell cell) 
