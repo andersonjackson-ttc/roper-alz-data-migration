@@ -8,9 +8,11 @@ import edu.tridenttech.rsfh.alzmigration.dao.ExcelReader;
 
 public class Main {
 
-	public static void main(String[] args) throws InvalidFormatException, IOException {
-		ExcelReader wb = new ExcelReader();
-		wb.createWorkbook();
+	public static void main(String[] args) throws InvalidFormatException, IOException 
+	{
+		MigrationDriver driver = new MigrationDriver("log.txt");
+		driver.performMigration("fakeDatabase1.xlsx", "RoperSpreadSheet.xlsx");
+		
 
 	}
 
