@@ -1,8 +1,11 @@
 package edu.tridenttech.rsfh.alzmigration;
 
 import edu.tridenttech.rsfh.alzmigration.dao.ExcelReader;
+import edu.tridenttech.rsfh.alzmigration.dao.ExcelWriter;
 import edu.tridenttech.rsfh.alzmigration.dao.ExistingParticipantRecord;
-import edu.tridenttech.rsfh.alzmigration.dao.newParticipantRecord;
+import edu.tridenttech.rsfh.alzmigration.dao.NewParticipantRecord;
+import edu.tridenttech.rsfh.alzmigration.dao.RecordParser;
+
 
 public class MigrationDriver 
 
@@ -19,10 +22,8 @@ public class MigrationDriver
 	while (reader.hasMoreRecords()) {
 	ExistingParticipantRecord record = reader.getNextRecord();
 
-	newParticipantRecord participant = parser.parse(record);
-	writer.writeParticipantPage(participant);
-	writer.writeTestsPage(participant);
-	writer.writeStatusPage(participant);
+	NewParticipantRecord participant = parser.parse(record);
+	writer.writeRecord(participant);
 	}
 	reader.close();
 	writer.close();

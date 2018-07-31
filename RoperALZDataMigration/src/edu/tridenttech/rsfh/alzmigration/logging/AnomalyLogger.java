@@ -13,7 +13,8 @@ public class AnomalyLogger
 			ADDRESS, 
 			MMSE_TEST_SCORE,
 			SCA_TEST_SCORE,
-			STATUS
+			STATUS,
+			DOB
 		}
 		
 
