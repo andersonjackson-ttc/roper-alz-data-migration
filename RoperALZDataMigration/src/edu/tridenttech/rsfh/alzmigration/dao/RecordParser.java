@@ -1,12 +1,13 @@
 package edu.tridenttech.rsfh.alzmigration.dao;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import edu.tridenttech.rsfh.alzmigration.logging.AnomalyLogger;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+
 
 public class RecordParser {
 	
@@ -50,9 +51,15 @@ public NewParticipantRecord parse(ExistingParticipantRecord oldRec)
 	
 	
 	verifyFirstName(newRecord, oldRec.getFirstName());
+	
 	verifyLastName(newRecord, oldRec.getLastName());
 	
 	parseAddress(newRecord, oldRec.getAddress());
+	
+	verifyGender(newRecord, oldRec.getGender());
+	
+	verifyRace(newRecord, oldRec.getRace());
+	
 	
 	
 	
@@ -107,6 +114,29 @@ private String verifyRace(NewParticipantRecord newRec, String tempRace)
 	return null;
 }
 
+private void verifyDate(NewParticipantRecord newRec, String tempDate)
+{
+	
+	SimpleDateFormat dateParser = new SimpleDateFormat("MM/dd/yyyy");
+	Date tempNewDate;
+
+	if (!tempDate.equals(""))
+	{
+		try 
+		{
+			dateParser.setLenient(false);
+			tempNewDate = dateParser.parse(tempDate);
+
+			newRec.setDob(tempNewDate);
+			
+		}
+		catch (ParseException e)
+		{
+			AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.ADDRESS, "Problem with Gender or empty");
+		}
+	}
+	
+}
 
 
 
