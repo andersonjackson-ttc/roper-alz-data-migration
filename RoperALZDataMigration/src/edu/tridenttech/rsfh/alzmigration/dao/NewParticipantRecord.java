@@ -15,7 +15,10 @@ public class NewParticipantRecord
 	private String zip;
 	private String email;
 	private String phone;
-	private String scores;
+	private Date mmseDate;
+	private String mmseScore;
+	private Date scaDate;
+	private String scaScore;
 	private String status;
 	private String pcp;
 	private String spec;
@@ -185,5 +188,37 @@ public class NewParticipantRecord
 
 	public void setZip(String zip) {
 		this.zip = zip;
+	}
+
+	public Date getMmseDate() {
+		return mmseDate;
+	}
+
+	public void setMmseDate(Date mmseDate) {
+		this.mmseDate = mmseDate;
+	}
+
+	public String getMmseScore() {
+		return mmseScore;
+	}
+
+	public void setMmseScore(String mmseScore) {
+		this.mmseScore = mmseScore;
+	}
+
+	public Date getScaDate() {
+		return scaDate;
+	}
+
+	public void setScaDate(Date scaDate) {
+		this.scaDate = scaDate;
+	}
+
+	public String getScaScore() {
+		return scaScore;
+	}
+
+	public void setScaScore(String scaScore) {
+		this.scaScore = scaScore;
 	}
 }
