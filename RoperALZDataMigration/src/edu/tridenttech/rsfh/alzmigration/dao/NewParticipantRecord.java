@@ -2,7 +2,7 @@ package edu.tridenttech.rsfh.alzmigration.dao;
 
 import java.util.Date;
 
-public class newParticipantRecord 
+public class NewParticipantRecord 
 {
 	private String lastName;
 	private String firstName;
