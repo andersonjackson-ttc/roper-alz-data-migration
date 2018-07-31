@@ -12,6 +12,7 @@ public class NewParticipantRecord
 	private String address;
 	private String city;
 	private String state;
+	private String zip;
 	private String email;
 	private String phone;
 	private String scores;
@@ -176,5 +177,13 @@ public class NewParticipantRecord
 
 	public void setState(String state) {
 		this.state = state;
+	}
+
+	public String getZip() {
+		return zip;
+	}
+
+	public void setZip(String zip) {
+		this.zip = zip;
 	}
 }
