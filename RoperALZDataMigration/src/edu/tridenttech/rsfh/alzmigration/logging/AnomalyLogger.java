@@ -23,12 +23,14 @@ public class AnomalyLogger
 	    private PrintStream writer;
 	 
 	    // variable of type String
-	    public String s;
+	    public String filename;
 	 
 	    // private constructor restricted to this class itself
 	    private AnomalyLogger(String filename) throws FileNotFoundException
 	    {
-	    	writer = new PrintStream(filename);
+	    	PrintStream writer = new PrintStream(filename);
+	    	this.filename = filename;
+	    	writer.close();
 	    	
 	    }
 	 
@@ -41,20 +43,25 @@ public class AnomalyLogger
 	        return instance;
 	    }
 	    
-	    public static AnomalyLogger getInstance() throws FileNotFoundException
+	    public static AnomalyLogger getInstance()
 	    {
 	    	if (instance == null)
-	    		throw new FileNotFoundException();
+	    		System.err.println("Log file not opened");
 	    	
 	    	return instance;
-	    	
-	    	
-	    	
 	    }
 	    
 	    public void Log(ExistingParticipantRecord record,  ErrorType type, String message)
 	    {
-	    	writer.printf("%s%s%s%s%s", record.getFirstName(), record.getLastName(), record.getDob(), type, message);
+	    	PrintStream writer;
+			try {
+				writer = new PrintStream(filename);
+				writer.printf("%s%s%s%s%s", record.getFirstName(), record.getLastName(), record.getDob(), type, message);
+		    	writer.close();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    	
 	    	
 	    }
