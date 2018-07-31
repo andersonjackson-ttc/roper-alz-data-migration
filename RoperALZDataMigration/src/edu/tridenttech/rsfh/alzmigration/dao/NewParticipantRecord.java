@@ -106,16 +106,6 @@ public class NewParticipantRecord
 		return phone;
 	}
 	
-	public void setScores(String field)
-	{
-		scores = field;
-	}
-	
-	public String getScores()
-	{
-		return scores;
-	}
-	
 	public void setStatus(String field)
 	{
 		status = field;
