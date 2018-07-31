@@ -20,9 +20,9 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 public class ExcelWriter 
 {
 	
-	private static Workbook wb;
-	private static String filePath;
-	private static FileInputStream inputStream;
+	private Workbook wb;
+	private String filePath;
+	private FileInputStream inputStream;
 	
 	
 	public ExcelWriter (String file) throws IOException, InvalidFormatException, FileNotFoundException
@@ -33,7 +33,7 @@ public class ExcelWriter
 	}
 	
 		
-	public static boolean writeRecord(NewParticipantRecord rd) throws IOException
+	public boolean writeRecord(NewParticipantRecord rd) throws IOException
 	{
 				
 		try
