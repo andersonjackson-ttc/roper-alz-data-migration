@@ -14,16 +14,21 @@ import java.text.SimpleDateFormat;
 
 public class ExcelReader
 {
-		
-	public Workbook createWorkbook (String filePathName) throws IOException, InvalidFormatException
+	Workbook wb;
+	int rowCount;
+	
+	
+	
+	public ExcelReader (String filePathName) throws IOException, InvalidFormatException
 	{
 		//create workbook
-		Workbook workbook = WorkbookFactory.create(new File(filePathName));
-		return workbook;
+		wb = WorkbookFactory.create(new File(filePathName));
+		rowCount = 0;
+		
 	}
 		
 	
-	public ExistingParticipantRecord getNextRecord(Workbook wb, int rowCount)
+	public ExistingParticipantRecord getNextRecord ()
 	{
 		//Get main data sheet
 		Sheet sheet = wb.getSheetAt(0);
@@ -40,10 +45,11 @@ public class ExcelReader
 			cellCount++;
 		}
 		
+		rowCount++;
 		return rd;
 	}
 		
-	public void closeWorkbook(Workbook wb) throws IOException
+	public void close() throws IOException
 	{
 		//close workbook
 		wb.close();
@@ -126,11 +132,11 @@ public class ExcelReader
 		}
 	}
 	
-	public boolean hasMoreRecords (Workbook wb,int nextRowCount)
+	public boolean hasMoreRecords ()
 	{
 		Sheet sheet = wb.getSheetAt(0);
 		
-		if (nextRowCount > sheet.getLastRowNum())
+		if (rowCount + 1 > sheet.getLastRowNum())
 		{
 			return false;
 		}
