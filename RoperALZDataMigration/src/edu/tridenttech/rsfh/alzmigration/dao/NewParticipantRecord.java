@@ -24,6 +24,9 @@ public class NewParticipantRecord
 	private String spec;
 	private String referal;
 	private String mailing;
+//	private String dead;
+//	private String holdFutureStudy;
+//	private String interestFutureStudy;
 	
 	
 	public void setLastName(String name)
