@@ -192,7 +192,7 @@ private void verifyEmail(NewParticipantRecord newRec, String tempEmail)
 {
 	Matcher emailMatch = emailPattern.matcher(tempEmail);
 	
-	if(emailMatch.matches());
+	if(emailMatch.matches())
 	{
 		newRec.setEmail(tempEmail);
 	}
@@ -206,7 +206,7 @@ private void verifyPhone(NewParticipantRecord newRec, String tempPhone)
 {
 	Matcher phoneMatch = phonePattern.matcher(tempPhone);
 	
-	if(phoneMatch.matches());
+	if(phoneMatch.matches())
 	{
 		newRec.setPhone(tempPhone);
 	}
