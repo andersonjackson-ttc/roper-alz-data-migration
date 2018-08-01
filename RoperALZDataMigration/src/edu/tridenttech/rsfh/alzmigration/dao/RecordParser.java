@@ -48,6 +48,8 @@ public NewParticipantRecord parse(ExistingParticipantRecord oldRec)
 	
 	verifyPhone(newRecord, oldRec.getPhone());
 	
+	verifyDate(newRecord, oldRec.getDob());
+	
 	verifyMMSEDateScores(newRecord, oldRec.getMMSE);
 	
 	verifySCADateScores(newRecord, oldRec.getSCA);

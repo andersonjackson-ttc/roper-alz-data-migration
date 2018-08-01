@@ -23,7 +23,7 @@ public class AnomalyLogger
 			GENDER,
 			RACE,
 			PCP,
-			SPECALIST,
+			SPECIALIST,
 			REFERAL,
 			MAILING
 			
