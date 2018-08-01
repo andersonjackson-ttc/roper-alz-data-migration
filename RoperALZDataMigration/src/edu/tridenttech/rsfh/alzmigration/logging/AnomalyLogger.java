@@ -12,10 +12,23 @@ public class AnomalyLogger
 		public enum ErrorType
 		{
 			ADDRESS, 
-			MMSE_TEST_SCORE,
-			SCA_TEST_SCORE,
+			MMSE,
+			SCA,
 			STATUS,
-			DOB
+			DOB,
+			PHONE,
+			EMAIL,
+			FIRST_NAME,
+			LAST_NAME,
+			GENDER,
+			RACE,
+			PCP,
+			SPECALIST,
+			REFERAL,
+			MAILING
+			
+
+			
 		}
 		
 
