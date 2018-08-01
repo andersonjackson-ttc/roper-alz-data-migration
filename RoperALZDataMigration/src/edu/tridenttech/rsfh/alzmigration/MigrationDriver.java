@@ -1,6 +1,9 @@
 package edu.tridenttech.rsfh.alzmigration;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import edu.tridenttech.rsfh.alzmigration.dao.ExcelReader;
 import edu.tridenttech.rsfh.alzmigration.dao.ExcelWriter;
@@ -26,8 +29,27 @@ public class MigrationDriver
 	RecordParser parser = new RecordParser();
 	ExcelReader reader;
 	ExcelWriter writer;
-	reader = new ExcelReader(oldFile);
-	writer = new ExcelWriter(newFile);
+	try {
+		reader = new ExcelReader(oldFile);
+	} catch (InvalidFormatException e) {
+		e.printStackTrace();
+		System.err.println("File not found");
+	} catch (IOException e) {
+		e.printStackTrace();
+		System.err.println("File not found");
+	}
+	try {
+		writer = new ExcelWriter(newFile);
+	} catch (InvalidFormatException e) {
+		e.printStackTrace();
+		System.err.println("File not found");
+	} catch (FileNotFoundException e) {
+		e.printStackTrace();
+		System.err.println("File not found");
+	} catch (IOException e) {
+		e.printStackTrace();
+		System.err.println("File not found");
+	}
 	while (reader.hasMoreRecords()) {
 	ExistingParticipantRecord record = reader.getNextRecord();
 

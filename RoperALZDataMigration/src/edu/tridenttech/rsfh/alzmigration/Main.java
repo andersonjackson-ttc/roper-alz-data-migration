@@ -12,8 +12,6 @@ public class Main {
 	{
 		MigrationDriver driver = new MigrationDriver("log.txt");
 		driver.performMigration("fakeDatabase1.xlsx", "RoperSpreadSheet.xlsx");
-		
-
 	}
 
 }
