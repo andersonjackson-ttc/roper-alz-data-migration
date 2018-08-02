@@ -11,7 +11,7 @@ import edu.tridenttech.rsfh.alzmigration.logging.AnomalyLogger;
 
 public class RecordParser {
 	
-	ExistingParticipantRecord exitsting = new ExistingParticipantRecord();
+	ExistingParticipantRecord existing = new ExistingParticipantRecord();
 	
 	
 	static String ADDR_PATTERN = "(?<add>\\d+[^,]+)";
@@ -53,7 +53,10 @@ public class RecordParser {
 
 public NewParticipantRecord parse(ExistingParticipantRecord oldRec)
 {
+	
 	NewParticipantRecord newRecord = new NewParticipantRecord();
+	existing = oldRec;
+	
 //	tempText = ("^(?newRecord.setFirstName[a-zA-Z-.]) (?newRecord.setLastName[a-zA-Z-.])$");
 	
 	
@@ -68,7 +71,7 @@ public NewParticipantRecord parse(ExistingParticipantRecord oldRec)
 	verifyRace(newRecord, oldRec.getRace());
 	
 	verifyEmail(newRecord, oldRec.getEmail());
-	
+
 	verifyPhone(newRecord, oldRec.getPhone());
 	
 	verifyDate(newRecord, oldRec.getDob());
@@ -98,19 +101,19 @@ private void verifySpecialist(NewParticipantRecord newRec, String tempSpecial)
 	}
 	else
 	{
-		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.SPECIALIST, "Empty Specialist");
+		AnomalyLogger.getInstance().Log(existing, AnomalyLogger.ErrorType.SPECIALIST, "Empty Specialist");
 	}
 }
 
 private void verifyReferal(NewParticipantRecord newRec, String tempReferal)
 {	
-	if(!tempReferal.equals(""))
+	if(tempReferal != null && !tempReferal.equals(""))
 	{
 		newRec.setReferal(tempReferal);
 	}
 	else
 	{
-		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.REFERAL, "Empty Referal");
+		AnomalyLogger.getInstance().Log(existing, AnomalyLogger.ErrorType.REFERAL, "Empty Referal");
 	}
 	
 }
@@ -123,7 +126,7 @@ private void verifyMailing(NewParticipantRecord newRec, String tempMailing)
 	}
 	else
 	{
-		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.MAILING, "Problem with Mailing");
+		AnomalyLogger.getInstance().Log(existing, AnomalyLogger.ErrorType.MAILING, "Problem with Mailing");
 	}
 	
 }
@@ -136,7 +139,7 @@ private void verifyPCP(NewParticipantRecord newRec, String temppcp)
 	}
 	else
 	{
-		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.PCP, "Empty PCP");
+		AnomalyLogger.getInstance().Log(existing, AnomalyLogger.ErrorType.PCP, "Empty PCP");
 	}
 }
 
@@ -144,7 +147,7 @@ private String verifyFirstName(NewParticipantRecord newRec, String tempName)
 {
 	if(tempName.equals(""))
 	{
-		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.FIRST_NAME, "Problem with First Name or empty");
+		AnomalyLogger.getInstance().Log(existing, AnomalyLogger.ErrorType.FIRST_NAME, "Problem with First Name or empty");
 		return null;
 	}
 	newRec.setFirstName(tempName);
@@ -156,7 +159,7 @@ private String verifyLastName(NewParticipantRecord newRec, String tempName)
 {
 	if(tempName.equals(""))
 	{
-		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.LAST_NAME, "Problem with Last Name or empty");
+		AnomalyLogger.getInstance().Log(existing, AnomalyLogger.ErrorType.LAST_NAME, "Problem with Last Name or empty");
 		return null;
 	}
 	newRec.setLastName(tempName);
@@ -167,7 +170,7 @@ private String verifyGender(NewParticipantRecord newRec, String tempGen)
 {
 	if(tempGen.equals(""))
 	{
-		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.GENDER, "Problem with Race or empty");
+		AnomalyLogger.getInstance().Log(existing, AnomalyLogger.ErrorType.GENDER, "Problem with Race or empty");
 		return null;
 	}
 	newRec.setGender(tempGen);
@@ -178,7 +181,7 @@ private String verifyRace(NewParticipantRecord newRec, String tempRace)
 {
 	if(tempRace.equals(""))
 	{
-		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.RACE, "Problem with Gender or empty");
+		AnomalyLogger.getInstance().Log(existing, AnomalyLogger.ErrorType.RACE, "Problem with Gender or empty");
 		return null;
 	}
 	newRec.setRace(tempRace);
@@ -203,7 +206,7 @@ private void verifyDate(NewParticipantRecord newRec, String tempDate)
 		}
 		catch (ParseException e)
 		{
-			AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.DOB, "Problem with DOB or empty");
+			AnomalyLogger.getInstance().Log(existing, AnomalyLogger.ErrorType.DOB, "Problem with DOB or empty");
 		}
 	}
 	
@@ -219,7 +222,7 @@ private void verifyEmail(NewParticipantRecord newRec, String tempEmail)
 	}
 	else
 	{
-		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.EMAIL, "Problem with Email");
+		AnomalyLogger.getInstance().Log(existing, AnomalyLogger.ErrorType.EMAIL, "Problem with Email");
 	}
 }
 
@@ -233,7 +236,7 @@ private void verifyPhone(NewParticipantRecord newRec, String tempPhone)
 	}
 	else
 	{
-		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.PHONE, "Problem with Phone");
+		AnomalyLogger.getInstance().Log(existing, AnomalyLogger.ErrorType.PHONE, "Problem with Phone");
 	}
 }
 
@@ -255,13 +258,13 @@ private void verifyMMSEDateScores(NewParticipantRecord newRec, String tempScores
 		}
 		catch (ParseException e)
 		{
-			AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.DATE, "Problem with MMSE date");
+			AnomalyLogger.getInstance().Log(existing, AnomalyLogger.ErrorType.DATE, "Problem with MMSE date");
 		}
 		
 	}
 	else
 	{
-		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.MMSE, "Problem with MMSE Score or date");
+		AnomalyLogger.getInstance().Log(existing, AnomalyLogger.ErrorType.MMSE, "Problem with MMSE Score or date");
 	}
 }
 
@@ -282,12 +285,12 @@ private void verifySCADateScores(NewParticipantRecord newRec, String tempScores)
 		}
 		catch (ParseException e)
 		{
-			AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.DATE, "Problem with SCA date");
+			AnomalyLogger.getInstance().Log(existing, AnomalyLogger.ErrorType.DATE, "Problem with SCA date");
 		}
 	}
 	else
 	{
-		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.SCA, "Problem with SCA Score or date");
+		AnomalyLogger.getInstance().Log(existing, AnomalyLogger.ErrorType.SCA, "Problem with SCA Score or date");
 	}
 }
 
@@ -327,12 +330,12 @@ private void parseAddress(NewParticipantRecord newRec, String tempAddress)
 	} 
 	else if (setAddressFieldsFromPattern(newRec, questionableCityPattern, tempAddress)) 
 	{
-		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.ADDRESS, "possible bad city");
+		AnomalyLogger.getInstance().Log(existing, AnomalyLogger.ErrorType.ADDRESS, "possible bad city");
 //		log(rawAddress.toString() + ": -- possible bad city");
 	} 
 	else 
 	{
-		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.ADDRESS, "Problem with Address");
+		AnomalyLogger.getInstance().Log(existing, AnomalyLogger.ErrorType.ADDRESS, "Problem with Address");
 	}
 
 
