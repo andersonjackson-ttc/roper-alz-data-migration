@@ -110,8 +110,11 @@ public class ExcelReader
 			rd.setPhone(cell);
 			break;
 		case 8:
-			rd.setScores(cell);
+			rd.setMmseScores(cell);
 			break;
+		case 9:
+			rd.setScaScores(cell);
+			break;	
 		case 10:
 			rd.setStatus(cell);
 			break;

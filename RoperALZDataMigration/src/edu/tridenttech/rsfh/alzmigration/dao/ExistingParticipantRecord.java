@@ -12,8 +12,8 @@ public class ExistingParticipantRecord
 	private String address;
 	private String email;
 	private String phone;
-	private String MmseScores;
-	private String ScaScores;
+	private String mmseScores;
+	private String scaScores;
 	private String status;
 	private String pcp;
 	private String spec;
@@ -103,22 +103,22 @@ public class ExistingParticipantRecord
 	
 	public void setMmseScores(String field)
 	{
-		MmseScores = field;
+		mmseScores = field;
 	}
 	
 	public String getMmseScores()
 	{
-		return MmseScores;
+		return mmseScores;
 	}
 	
 	public void setScaScores(String field)
 	{
-		ScaScores = field;
+		scaScores = field;
 	}
 	
 	public String getScaScores()
 	{
-		return ScaScores;
+		return scaScores;
 	}
 	
 	public void setStatus(String field)
