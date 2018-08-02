@@ -25,7 +25,8 @@ public class AnomalyLogger
 			PCP,
 			SPECIALIST,
 			REFERAL,
-			MAILING
+			MAILING,
+			DATE
 			
 
 			

@@ -228,10 +228,18 @@ private void verifyMMSEDateScores(NewParticipantRecord newRec, String tempScores
 	
 	if(scoresMatch.matches())
 	{
+		try
+		{
 		dateParser.setLenient(false);
 		holdDate = dateParser.parse(scoresMatch.group("date"));
 		newRec.setMmseDate(holdDate);
 		newRec.setMmseScore(scoresMatch.group("score"));
+		}
+		catch (ParseException e)
+		{
+			AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.DATE, "Problem with MMSE date");
+		}
+		
 	}
 	else
 	{
@@ -247,10 +255,17 @@ private void verifySCADateScores(NewParticipantRecord newRec, String tempScores)
 	
 	if(scoresMatch.matches())
 	{
+		try
+		{
 		dateParser.setLenient(false);
 		holdDate = dateParser.parse(scoresMatch.group("date"));
 		newRec.setScaDate(holdDate);
 		newRec.setScaScore(scoresMatch.group("score"));
+		}
+		catch (ParseException e)
+		{
+			AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.DATE, "Problem with SCA date");
+		}
 	}
 	else
 	{
