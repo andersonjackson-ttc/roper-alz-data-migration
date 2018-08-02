@@ -1,0 +1,1 @@
+null                null                null         ADDRESS   possible bad citynull                null                null           PHONE  Problem with Phonenull                null                null            MMSEProblem with MMSE Score or datenull                null                null            DATEProblem with SCA date

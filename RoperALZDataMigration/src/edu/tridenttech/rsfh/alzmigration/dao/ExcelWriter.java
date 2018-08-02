@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -30,17 +31,18 @@ public class ExcelWriter
 	{
 		filePath = file;
 		inPath = file;
-		inputStream = new FileInputStream(new File(inPath));
-		wb = WorkbookFactory.create(inputStream);
+		
 	}
 	
 		
-	public boolean writeRecord(NewParticipantRecord rd) throws IOException
+	public boolean writeRecord(NewParticipantRecord rd) throws IOException, EncryptedDocumentException, InvalidFormatException
 	{
 				
 		try
 		{
-					
+			inputStream = new FileInputStream(new File(inPath));
+			wb = WorkbookFactory.create(inputStream);
+			
 			//primary sheet
 			
 			Sheet sheet = wb.getSheetAt(0);
@@ -170,9 +172,6 @@ public class ExcelWriter
 			return true;
 		} catch (IOException ex) {
 			ex.printStackTrace();
-		}
-		finally {
-			wb.close();
 		}
 		return false;
 	}
