@@ -136,7 +136,7 @@ private void verifyPCP(NewParticipantRecord newRec, String temppcp)
 	}
 	else
 	{
-		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.PCP, "Problem with PCP");
+		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.PCP, "Empty PCP");
 	}
 }
 
