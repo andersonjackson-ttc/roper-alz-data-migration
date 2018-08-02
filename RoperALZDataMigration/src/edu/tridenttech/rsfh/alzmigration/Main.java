@@ -4,14 +4,20 @@ import java.io.IOException;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
-import edu.tridenttech.rsfh.alzmigration.dao.ExcelReader;
-
 public class Main {
 
 	public static void main(String[] args) throws InvalidFormatException, IOException 
 	{
+		String oldPath = "fakeDatabase1.xlsx";
+		String newPath = "RoperSpreadSheet.xlsx";
+
+		if (args.length > 0) {
+			oldPath = args[0];
+			newPath = args[1];
+		}
+
 		MigrationDriver driver = new MigrationDriver("log.txt");
-		driver.performMigration("fakeDatabase1.xlsx", "RoperSpreadSheet.xlsx");
+		driver.performMigration(oldPath, newPath);
 	}
 
 }
