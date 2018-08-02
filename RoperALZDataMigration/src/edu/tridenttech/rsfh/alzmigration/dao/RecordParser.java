@@ -14,15 +14,37 @@ public class RecordParser {
 	ExistingParticipantRecord exitsting = new ExistingParticipantRecord();
 	
 	
+	static String ADDR_PATTERN = "(?<add>\\d+[^,]+)";
+	static String CITY_PATTERN = "(?<city>[A-Za-z][^,]+)";
+	static String STATE_PATTERN = "(?<state>[a-zA-Z]{2})";
+	static String ZIP_PATTERN = "(?<zip>[0-9]{5}(-[0-9]{4}){0,1})";
+	static String EMPTY_ZIP_PATTERN = "(?<zip> *)";
+	static String COMMA_WS = ", *";
+	static String OPT_COMMA_WS = ",* *";
+	static String ENDING_WS = "\\s*$";
+	static String TWO_ADDR_PATTERN = "(?<add>\\d+[^,]+, *[^,]+)";
+	static String SINGLE_CITY_PATTERN = "(?<city> [A-Za-z][^,]+)";
+
+
+	private static String confidentMatch = ADDR_PATTERN + COMMA_WS + CITY_PATTERN + OPT_COMMA_WS + STATE_PATTERN + OPT_COMMA_WS + ZIP_PATTERN + ENDING_WS;
+	private static Pattern confidentPattern = Pattern.compile(confidentMatch);
 	
+	private static String secondAddressMatch = TWO_ADDR_PATTERN + COMMA_WS + CITY_PATTERN + OPT_COMMA_WS + STATE_PATTERN + OPT_COMMA_WS + ZIP_PATTERN + ENDING_WS;
+	private static Pattern secondAddressPattern = Pattern.compile(secondAddressMatch);
+
+	private static String missingZipMatch = ADDR_PATTERN + COMMA_WS + CITY_PATTERN + OPT_COMMA_WS + STATE_PATTERN + EMPTY_ZIP_PATTERN + ENDING_WS;
+	private static Pattern missingZipPattern = Pattern.compile(missingZipMatch);
 	
-	Pattern addressPattern = Pattern.compile ("^(?add[0-9]{1,6} [a-zA-Z]??[.]??[ ]?[a-zA-Z. ]+? [a-zA-Z]{2,7}[.]?[,]? )(?city[a-zA-Z]+[ ]?[a-zA-Z]*[,]?)(?state[a-zA-Z]{2}[.]??)(?zip([0-9]{5})?)$");                 
+	private static String questionableCityMatch = ADDR_PATTERN + SINGLE_CITY_PATTERN + COMMA_WS + STATE_PATTERN + "\\s*" + ZIP_PATTERN + ENDING_WS;
+	private static Pattern questionableCityPattern = Pattern.compile(questionableCityMatch);
+	
+//	Pattern addressPattern = Pattern.compile ("^(?add[0-9]{1,6} [a-zA-Z]??[.]??[ ]?[a-zA-Z. ]+? [a-zA-Z]{2,7}[.]?[,]? )(?city[a-zA-Z]+[ ]?[a-zA-Z]*[,]?)(?state[a-zA-Z]{2}[.]??)(?zip([0-9]{5})?)$");                 
 //												     [0-9]{1,6} [a-zA-Z]??[.]??[ ]?[a-zA-Z. ]+? [a-zA-Z]{2,7}[.]?[,]?        [a-zA-Z]+[ ]?[a-zA-Z]*[,]?        [a-zA-Z]{2}[.]??      ([0-9]{5})?
 	Pattern emailPattern = Pattern.compile("^[a-zA-Z_0-9-.]*@[a-zA-Z_0-9.-]*.[a-zA-Z]*$");
 	Pattern phonePattern = Pattern.compile("^[0-9]{3}-[0-9]{3}-[0-9]{4}$");
-	Pattern scoresPattern = Pattern.compile("^(?date([0-9]{1,3}[/-]?[0-9]{1,3}[/-]([0-9]{2}|[0-9]{4}))*)[-]?[ ]?(?score([[0-9]{1,2}]*?/[[0-9]{1,2}]*?)*)$");
-	Pattern namePattern = Pattern.compile("^[a-zA-Z.-() ]*$");
-	Pattern referalPattern = Pattern.compile("^[a-zA-Z0-9-.,()// ]$");
+	Pattern scoresPattern = Pattern.compile("^(?<date>([0-9]{1,3}[/-]?[0-9]{1,3}[/-]([0-9]{2}|[0-9]{4}))*)[-]?[ ]?(?<score>([[0-9]{1,2}]*?/[[0-9]{1,2}]*?)*)$");
+//	Pattern namePattern = Pattern.compile("^[a-zA-Z.-() ]*$");
+//	Pattern referalPattern = Pattern.compile("^[a-zA-Z0-9-.,()// ]$");
 	
 
 
@@ -68,29 +90,27 @@ public NewParticipantRecord parse(ExistingParticipantRecord oldRec)
 
 private void verifySpecialist(NewParticipantRecord newRec, String tempSpecial)
 {
-	Matcher specialMatch = namePattern.matcher(tempSpecial);
+//	Matcher specialMatch = namePattern.matcher(tempSpecial);
 	
-	if(specialMatch.matches())
+	if(!tempSpecial.equals(""))
 	{
 		newRec.setSpec(tempSpecial);
 	}
 	else
 	{
-		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.SPECIALIST, "Problem with Specialist");
+		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.SPECIALIST, "Empty Specialist");
 	}
 }
 
 private void verifyReferal(NewParticipantRecord newRec, String tempReferal)
-{
-	Matcher referalMatch = referalPattern.matcher(tempReferal);
-	
-	if(referalMatch.matches())
+{	
+	if(!tempReferal.equals(""))
 	{
 		newRec.setReferal(tempReferal);
 	}
 	else
 	{
-		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.REFERAL, "Problem with Referal");
+		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.REFERAL, "Empty Referal");
 	}
 	
 }
@@ -110,9 +130,7 @@ private void verifyMailing(NewParticipantRecord newRec, String tempMailing)
 
 private void verifyPCP(NewParticipantRecord newRec, String temppcp) 
 {
-	Matcher pcpMatch = namePattern.matcher(temppcp);
-	
-	if(pcpMatch.matches())
+	if(!temppcp.equals(""))
 	{
 		newRec.setPcp(temppcp);
 	}
@@ -279,26 +297,68 @@ private void verifySCADateScores(NewParticipantRecord newRec, String tempScores)
 private void parseAddress(NewParticipantRecord newRec, String tempAddress)
 {
 
-	Matcher addressMatcher = addressPattern.matcher(tempAddress);
+//	Matcher addressMatcher = addressPattern.matcher(tempAddress);
+//
+//	if(addressMatcher.matches())
+//	{
+//		newRec.setAddress(addressMatcher.group("add"));
+//		newRec.setCity(addressMatcher.group("city"));
+//		newRec.setState(addressMatcher.group("state"));
+//		newRec.setZip(addressMatcher.group("zip"));
+//
+//	}
+//	else
+//	{
+//		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.ADDRESS, "Problem with Address");
+//
+//	}
 
-	if(addressMatcher.matches())
+	if (setAddressFieldsFromPattern(newRec, confidentPattern, tempAddress)) 
 	{
-		newRec.setAddress(addressMatcher.group("add"));
-		newRec.setCity(addressMatcher.group("city"));
-		newRec.setState(addressMatcher.group("state"));
-		newRec.setZip(addressMatcher.group("zip"));
-
-	}
-	else
+		// succeeded; do nothing
+	} 
+	else if (setAddressFieldsFromPattern(newRec, secondAddressPattern, tempAddress)) 
+	{
+		// succeeded; do nothing
+	} 
+	else if (setAddressFieldsFromPattern(newRec, missingZipPattern, tempAddress))
+	{
+		// succeeded; do nothing
+	} 
+	else if (setAddressFieldsFromPattern(newRec, questionableCityPattern, tempAddress)) 
+	{
+		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.ADDRESS, "possible bad city");
+//		log(rawAddress.toString() + ": -- possible bad city");
+	} 
+	else 
 	{
 		AnomalyLogger.getInstance().Log(exitsting, AnomalyLogger.ErrorType.ADDRESS, "Problem with Address");
-
 	}
-
 
 
 }
 
+private boolean setAddressFieldsFromPattern(NewParticipantRecord newRec, Pattern pattern, String address)
+{
+	Matcher addressMatcher = pattern.matcher(address);
+	if(addressMatcher.matches()) 
+	{
+		setAddressValuesFromMatcher(newRec, addressMatcher); 
+		return true;
+	} 
+	else 
+	{
+		return false;
+	}
+}
+
+private void setAddressValuesFromMatcher(NewParticipantRecord newRec, Matcher matcher)
+{
+	newRec.setAddress(matcher.group("add").trim());
+	newRec.setCity(matcher.group("city").trim());
+	newRec.setState(matcher.group("state").trim());
+	newRec.setZip(matcher.group("zip").trim());
+}
 
 
 
