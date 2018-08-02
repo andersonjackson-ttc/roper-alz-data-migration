@@ -51,9 +51,9 @@ public NewParticipantRecord parse(ExistingParticipantRecord oldRec)
 	
 	verifyDate(newRecord, oldRec.getDob());
 	
-	verifyMMSEDateScores(newRecord, oldRec.getMmse);
+	verifyMMSEDateScores(newRecord, oldRec.getMmseScores());
 	
-	verifySCADateScores(newRecord, oldRec.getSca);
+	verifySCADateScores(newRecord, oldRec.getScaScores());
 	
 	verifyPCP(newRecord, oldRec.getPcp());
 	
@@ -219,7 +219,7 @@ private void verifyPhone(NewParticipantRecord newRec, String tempPhone)
 	}
 }
 
-private void verifyMMSEDateScores(NewParticipantRecord newRec, String tempScores) throws ParseException
+private void verifyMMSEDateScores(NewParticipantRecord newRec, String tempScores) 
 {
 	SimpleDateFormat dateParser = new SimpleDateFormat("MM/dd/yyyy");
 	Date holdDate;
@@ -239,7 +239,7 @@ private void verifyMMSEDateScores(NewParticipantRecord newRec, String tempScores
 	}
 }
 
-private void verifySCADateScores(NewParticipantRecord newRec, String tempScores) throws ParseException
+private void verifySCADateScores(NewParticipantRecord newRec, String tempScores) 
 {
 	SimpleDateFormat dateParser = new SimpleDateFormat("MM/dd/yyyy");
 	Date holdDate;
