@@ -138,6 +138,7 @@ public class ExcelReader
 	public boolean hasMoreRecords ()
 	{
 		Sheet sheet = wb.getSheetAt(0);
+		System.out.print(sheet.getLastRowNum());
 		
 		if (rowCount + 1 > sheet.getLastRowNum())
 		{
