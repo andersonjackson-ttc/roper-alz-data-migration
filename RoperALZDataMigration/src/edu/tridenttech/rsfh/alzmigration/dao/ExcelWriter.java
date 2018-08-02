@@ -22,13 +22,15 @@ public class ExcelWriter
 	
 	private Workbook wb;
 	private String filePath;
+	private String inPath;
 	private FileInputStream inputStream;
 	
 	
 	public ExcelWriter (String file) throws IOException, InvalidFormatException, FileNotFoundException
 	{
 		filePath = file;
-		inputStream = new FileInputStream(new File(filePath));
+		inPath = file;
+		inputStream = new FileInputStream(new File(inPath));
 		wb = WorkbookFactory.create(inputStream);
 	}
 	

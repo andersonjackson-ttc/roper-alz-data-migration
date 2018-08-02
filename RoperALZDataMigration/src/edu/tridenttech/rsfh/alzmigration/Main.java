@@ -9,7 +9,7 @@ public class Main {
 	public static void main(String[] args) throws InvalidFormatException, IOException 
 	{
 		String oldPath = "fakeDatabase1.xlsx";
-		String newPath = "RoperSpreadSheet.xlsx";
+		String newPath = "RoperSpreadSheet2.xlsx";
 
 		if (args.length > 0) {
 			oldPath = args[0];
