@@ -25,12 +25,14 @@ public class ExcelWriter
 	private String filePath;
 	private String inPath;
 	private FileInputStream inputStream;
+	private int count;
 	
 	
 	public ExcelWriter (String file) throws IOException, InvalidFormatException, FileNotFoundException
 	{
 		filePath = file;
 		inPath = file;
+		count = 0;
 		
 	}
 	
@@ -161,7 +163,8 @@ public class ExcelWriter
 			cell = row.createCell(7);
 			cell.setCellValue(rd.getScaScore());
 			
-			
+			count++;
+			System.out.println(count);
 			inputStream.close();
 			
 			FileOutputStream outputStream = new FileOutputStream(filePath);
