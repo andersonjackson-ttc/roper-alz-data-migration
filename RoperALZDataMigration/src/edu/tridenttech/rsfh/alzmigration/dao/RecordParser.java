@@ -107,7 +107,7 @@ private void verifySpecialist(NewParticipantRecord newRec, String tempSpecial)
 
 private void verifyReferal(NewParticipantRecord newRec, String tempReferal)
 {	
-	if(!tempReferal.equals(""))
+	if(tempReferal != null && !tempReferal.equals(""))
 	{
 		newRec.setReferal(tempReferal);
 	}
