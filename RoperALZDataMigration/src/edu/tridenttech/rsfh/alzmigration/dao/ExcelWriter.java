@@ -171,6 +171,9 @@ public class ExcelWriter
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
+		finally {
+			wb.close();
+		}
 		return false;
 	}
 	
