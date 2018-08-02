@@ -50,9 +50,9 @@ public NewParticipantRecord parse(ExistingParticipantRecord oldRec)
 	
 	verifyDate(newRecord, oldRec.getDob());
 	
-	verifyMMSEDateScores(newRecord, oldRec.getMMSE);
+	verifyMMSEDateScores(newRecord, oldRec.getMmse);
 	
-	verifySCADateScores(newRecord, oldRec.getSCA);
+	verifySCADateScores(newRecord, oldRec.getSca);
 	
 	verifyPCP(newRecord, oldRec.getPcp());
 	
@@ -218,14 +218,19 @@ private void verifyPhone(NewParticipantRecord newRec, String tempPhone)
 	}
 }
 
-private void verifyMMSEDateScores(NewParticipantRecord newRec, String tempScores)
+private void verifyMMSEDateScores(NewParticipantRecord newRec, String tempScores) throws ParseException
 {
+	SimpleDateFormat dateParser = new SimpleDateFormat("MM/dd/yyyy");
+	Date holdDate;
 	Matcher scoresMatch = scoresPattern.matcher(tempScores);
+	
 	
 	if(scoresMatch.matches())
 	{
-		newRec.setMmseDate(scoresPattern.group("date"));
-		newRec.setMmseScore(scoresPattern.group("score"));
+		dateParser.setLenient(false);
+		holdDate = dateParser.parse(scoresMatch.group("date"));
+		newRec.setMmseDate(holdDate);
+		newRec.setMmseScore(scoresMatch.group("score"));
 	}
 	else
 	{
@@ -233,14 +238,18 @@ private void verifyMMSEDateScores(NewParticipantRecord newRec, String tempScores
 	}
 }
 
-private void verifySCADateScores(NewParticipantRecord newRec, String tempScores)
+private void verifySCADateScores(NewParticipantRecord newRec, String tempScores) throws ParseException
 {
+	SimpleDateFormat dateParser = new SimpleDateFormat("MM/dd/yyyy");
+	Date holdDate;
 	Matcher scoresMatch = scoresPattern.matcher(tempScores);
 	
 	if(scoresMatch.matches())
 	{
-		newRec.setScaDate(scoresPattern.group("date"));
-		newRec.setScaScore(scoresPattern.group("score"));
+		dateParser.setLenient(false);
+		holdDate = dateParser.parse(scoresMatch.group("date"));
+		newRec.setScaDate(holdDate);
+		newRec.setScaScore(scoresMatch.group("score"));
 	}
 	else
 	{
