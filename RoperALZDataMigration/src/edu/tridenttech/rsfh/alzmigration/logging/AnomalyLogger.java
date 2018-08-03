@@ -71,7 +71,7 @@ public class AnomalyLogger
 	    	PrintStream writer;
 			try {
 				writer = new PrintStream(new FileOutputStream(filename, true));
-				writer.printf("%s%s%s%s%s%s%s%s%s%s", record.getFirstName(),",", record.getLastName(),",", record.getDob(),",", type,",", message,",\n");
+				writer.printf("%s,%s,%s,%s,%s,\n", record.getFirstName(), record.getLastName(), record.getDob(), type, message);
 		    	writer.close();
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
