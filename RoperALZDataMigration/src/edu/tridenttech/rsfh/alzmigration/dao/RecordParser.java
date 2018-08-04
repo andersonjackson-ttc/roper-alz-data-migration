@@ -81,6 +81,18 @@ public class RecordParser {
 		verifyReferal(newRecord, oldRec.getReferal());
 
 		verifyMailing(newRecord, oldRec.getMailing());
+		
+		verifyDead(newRecord, oldRec.getStatus());
+		
+		verifyHold(newRecord, oldRec.getStatus());
+		
+		verifyInterest(newRecord, oldRec.getStatus());
+		
+		verifyNoAction(newRecord, oldRec.getStatus());
+		
+		verifyParticipationEnd(newRecord, oldRec.getStatus());
+		
+		
 
 		return newRecord;
 	}
@@ -402,6 +414,92 @@ public class RecordParser {
 		newRec.setState(matcher.group("state").trim());
 		newRec.setZip(matcher.group("zip").trim());
 	}
+	
+	private void verifyDead(NewParticipantRecord newRec, String tempStat)
+	{
+		boolean flag = false;
+		
+		tempStat = tempStat.toLowerCase();
+		
+		flag = tempStat.contains("deceased");
+		
+		if(flag ==true)
+		{
+			newRec.setDead("deceased");
+		}
+	}
+	
+	private void verifyHold(NewParticipantRecord newRec, String tempStat)
+	{
+		boolean flag = false;
+		
+		tempStat = tempStat.toLowerCase();
+		
+		flag = tempStat.contains("hold for future study");
+		
+		if(flag ==true)
+		{
+			newRec.setHoldForFuture("hold for future study");
+		}
+	}
+	
+	private void verifyInterest(NewParticipantRecord newRec, String tempStat)
+	{
+		boolean flag = false;
+		
+		tempStat = tempStat.toLowerCase();
+		
+		flag = tempStat.contains("interested in future study");
+		
+		if(flag ==true)
+		{
+			newRec.setInterestedInFuture("interested in future study");
+		}
+	}
+	
+	private void verifyParticipationEnd(NewParticipantRecord newRec, String tempStat)
+	{
+		boolean flag = false;
+		
+		tempStat = tempStat.toLowerCase();
+		
+		flag = tempStat.contains("study participation ended");
+		
+		if(flag ==true)
+		{
+			newRec.setParticipationEnd("study participation ended");
+		}
+	}
+	
+	private void verifyNoAction(NewParticipantRecord newRec, String tempStat)
+	{
+		boolean flag = false;
+		
+		tempStat = tempStat.toLowerCase();
+		
+		flag = tempStat.contains("no further action");
+		
+		if(flag ==true)
+		{
+			newRec.setNoAction("no further action");
+		}
+	}
+	
+	
+	
+//	private void verifyParticipationEnd(NewParticipantRecord newRec, String tempStat)
+//	{
+//		boolean flag = false;
+//		
+//		tempStat = tempStat.toLowerCase();
+//		
+//		flag = tempStat.contains("study participation ended");
+//		
+//		if(flag ==true)
+//		{
+//			newRec.setParticipationEnd("yes");
+//		}
+//	}
 
 	private boolean isBlank(String temp)
 	{
