@@ -439,7 +439,7 @@ public class RecordParser {
 		
 		if(flag ==true)
 		{
-			newRec.setHoldForFuture("hold for future study");
+			newRec.setHoldFutureStudy("hold for future study");
 		}
 	}
 	
@@ -453,7 +453,7 @@ public class RecordParser {
 		
 		if(flag ==true)
 		{
-			newRec.setInterestedInFuture("interested in future study");
+			newRec.setInterestFutureStudy("interested in future study");
 		}
 	}
 	
@@ -467,7 +467,7 @@ public class RecordParser {
 		
 		if(flag ==true)
 		{
-			newRec.setParticipationEnd("study participation ended");
+			newRec.setParticipationEnded("study participation ended");
 		}
 	}
 	

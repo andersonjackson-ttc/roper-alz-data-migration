@@ -28,6 +28,7 @@ public class NewParticipantRecord
 	private String holdFutureStudy;
 	private String interestFutureStudy;
 	private String noAction;
+	private String participationEnded;
 	
 	
 	public void setLastName(String name)
@@ -246,5 +247,13 @@ public class NewParticipantRecord
 
 	public void setNoAction(String noAction) {
 		this.noAction = noAction;
+	}
+
+	public String getParticipationEnded() {
+		return participationEnded;
+	}
+
+	public void setParticipationEnded(String participationEnded) {
+		this.participationEnded = participationEnded;
 	}
 }
