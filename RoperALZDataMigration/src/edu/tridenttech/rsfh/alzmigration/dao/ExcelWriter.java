@@ -83,22 +83,22 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 				cell = row.createCell(7);
 				cell.setCellValue(rd.getAddress());
 				
-				cell = row.createCell(8);
+				cell = row.createCell(9);
 				cell.setCellValue(rd.getCity());
 				
-				cell = row.createCell(9);
+				cell = row.createCell(10);
 				cell.setCellValue(rd.getState());
 				
-				cell = row.createCell(10);
+				cell = row.createCell(11);
 				cell.setCellValue(rd.getZip());
 				
-				cell = row.createCell(11);
+				cell = row.createCell(12);
 				cell.setCellValue(rd.getEmail());
 				
-				cell = row.createCell(12);
+				cell = row.createCell(13);
 				cell.setCellValue(rd.getPhone());
 				
-				cell = row.createCell(13);
+				cell = row.createCell(14);
 				cell.setCellValue(rd.getStatus());
 				
 				//cell = row.createCell(14);
