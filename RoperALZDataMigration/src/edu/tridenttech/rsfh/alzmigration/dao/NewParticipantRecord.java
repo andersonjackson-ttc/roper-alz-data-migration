@@ -24,9 +24,10 @@ public class NewParticipantRecord
 	private String spec;
 	private String referal;
 	private String mailing;
-//	private String dead;
-//	private String holdFutureStudy;
-//	private String interestFutureStudy;
+	private String dead;
+	private String holdFutureStudy;
+	private String interestFutureStudy;
+	private String noAction;
 	
 	
 	public void setLastName(String name)
@@ -213,5 +214,37 @@ public class NewParticipantRecord
 
 	public void setScaScore(String scaScore) {
 		this.scaScore = scaScore;
+	}
+
+	public String getDead() {
+		return dead;
+	}
+
+	public void setDead(String dead) {
+		this.dead = dead;
+	}
+
+	public String getHoldFutureStudy() {
+		return holdFutureStudy;
+	}
+
+	public void setHoldFutureStudy(String holdFutureStudy) {
+		this.holdFutureStudy = holdFutureStudy;
+	}
+
+	public String getInterestFutureStudy() {
+		return interestFutureStudy;
+	}
+
+	public void setInterestFutureStudy(String interestFutureStudy) {
+		this.interestFutureStudy = interestFutureStudy;
+	}
+
+	public String getNoAction() {
+		return noAction;
+	}
+
+	public void setNoAction(String noAction) {
+		this.noAction = noAction;
 	}
 }
