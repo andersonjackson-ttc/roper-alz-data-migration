@@ -49,6 +49,8 @@ public class MigrationDriver
 		} finally {
 			if (reader != null)
 				reader.close();
+			if (writer != null)
+				writer.close();
 		}
 
 

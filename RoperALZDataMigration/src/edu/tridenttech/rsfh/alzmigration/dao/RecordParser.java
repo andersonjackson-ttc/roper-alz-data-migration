@@ -15,6 +15,7 @@ public class RecordParser {
 
 
 	static String ADDR_PATTERN = "(?<add>\\d+[^,]+)";
+	static String NO_NUM_PATTERN = "(?<add>[^,]+)";
 	static String CITY_PATTERN = "(?<city>[A-Za-z][^,]+)";
 	static String STATE_PATTERN = "(?<state>[a-zA-Z]{2})";
 	static String ZIP_PATTERN = "(?<zip>[0-9]{5}(-[0-9]{4}){0,1})";
@@ -29,6 +30,9 @@ public class RecordParser {
 	private static String confidentMatch = ADDR_PATTERN + COMMA_WS + CITY_PATTERN + OPT_COMMA_WS + STATE_PATTERN + OPT_COMMA_WS + ZIP_PATTERN + ENDING_WS;
 	private static Pattern confidentPattern = Pattern.compile(confidentMatch);
 
+	private static String noStreetNumMatch = NO_NUM_PATTERN + COMMA_WS + CITY_PATTERN + OPT_COMMA_WS + STATE_PATTERN + OPT_COMMA_WS + ZIP_PATTERN + ENDING_WS;
+	private static Pattern noStreetNumPattern = Pattern.compile(noStreetNumMatch);
+
 	private static String secondAddressMatch = TWO_ADDR_PATTERN + COMMA_WS + CITY_PATTERN + OPT_COMMA_WS + STATE_PATTERN + OPT_COMMA_WS + ZIP_PATTERN + ENDING_WS;
 	private static Pattern secondAddressPattern = Pattern.compile(secondAddressMatch);
 
@@ -40,10 +44,10 @@ public class RecordParser {
 
 	Pattern emailPattern = Pattern.compile("^[a-zA-Z_0-9-.]*@[a-zA-Z_0-9.-]*.[a-zA-Z]*$");
 	Pattern phonePattern = Pattern.compile("^[(]?[0-9]{3}[)-.]{1}[0-9]{3}[.-]{1}[0-9]{4}$");
-	Pattern scoresPattern2 = Pattern.compile("^(?<date>([0-9]{1,3}[/-]?[0-9]{1,3}[/-]?[0-9]{2}*))[- ]*(?<score>([[0-9]{1,2}]*?/[[0-9]{1,2}]*?)*)$");
-	Pattern scoresPattern4 = Pattern.compile("^(?<date>([0-9]{1,3}[/-]?[0-9]{1,3}[/-]?[0-9]{4}*))[- ]*(?<score>([[0-9]{1,2}]*?/[[0-9]{1,2}]*?)*)$");
-	Pattern datePattern2 = Pattern.compile("^([0-9]{1,3}[/-]?[0-9]{1,3}[/-]?[0-9]{2}*)$");
-	Pattern datePattern4 = Pattern.compile("^([0-9]{1,3}[/-]?[0-9]{1,3}[/-]?[0-9]{4}*)$");
+	Pattern scoresPattern2 = Pattern.compile("^(?<date>([0-9]{1,3}[/-]?[0-9]{1,3}[/-]?[0-9]{2}))[- ]*(?<score>([[0-9]{1,2}]*?/[[0-9]{1,2}]*?)*)$");
+	Pattern scoresPattern4 = Pattern.compile("^(?<date>([0-9]{1,3}[/-]?[0-9]{1,3}[/-]?[0-9]{4}))[- ]*(?<score>([[0-9]{1,2}]*?/[[0-9]{1,2}]*?)*)$");
+	Pattern datePattern2 = Pattern.compile("^([0-9]{1,3}[/-]?[0-9]{1,3}[/-]?[0-9]{2})$");
+	Pattern datePattern4 = Pattern.compile("^([0-9]{1,3}[/-]?[0-9]{1,3}[/-]?[0-9]{4})$");
 
 	public NewParticipantRecord parse(ExistingParticipantRecord oldRec)
 	{
@@ -58,7 +62,7 @@ public class RecordParser {
 
 		verifyLastName(newRecord, oldRec.getLastName());
 
-		parseAddress(newRecord, oldRec.getAddress());
+		verifyAddress(newRecord, oldRec.getAddress());
 
 		verifyGender(newRecord, oldRec.getGender());
 
@@ -82,6 +86,9 @@ public class RecordParser {
 
 		verifyMailing(newRecord, oldRec.getMailing());
 		
+		// save raw status
+		newRecord.setStatus(oldRec.getStatus());
+
 		verifyDead(newRecord, oldRec.getStatus());
 		
 		verifyHold(newRecord, oldRec.getStatus());
@@ -126,9 +133,14 @@ public class RecordParser {
 
 	private void verifyMailing(NewParticipantRecord newRec, String tempMailing)
 	{
-		if(tempMailing.matches("^[YNyn ]{1}$"))
-		{
-			newRec.setReferal(tempMailing);
+		if(tempMailing != null)
+		{ 
+			if (tempMailing.toUpperCase().matches("^(Y|YES)$"))
+				newRec.setMailing("Y");
+			else if (tempMailing.toUpperCase().matches("^(N|NO)$"))
+				newRec.setMailing("N");
+			else
+				newRec.setMailing(tempMailing);
 		}
 		//		else
 		//		{
@@ -251,30 +263,29 @@ public class RecordParser {
 	{
 		Matcher emailMatch = emailPattern.matcher(tempEmail);
 
-		if(emailMatch.matches())
-		{
-			newRec.setEmail(tempEmail);
-		}
-		else
+		if(!emailMatch.matches())
 		{
 			AnomalyLogger.getInstance().Log(existing, AnomalyLogger.ErrorType.EMAIL, "Problem with Email");
 		}
+
+		newRec.setEmail(tempEmail);
+		
 	}
 
 	private void verifyPhone(NewParticipantRecord newRec, String tempPhone)
 	{
 		tempPhone = tempPhone.replace(" ", "");
+		tempPhone = tempPhone.replace('.', '-');
+		tempPhone = tempPhone.replace(')', '-');
 
 		Matcher phoneMatch = phonePattern.matcher(tempPhone);
 
-		if(phoneMatch.matches())
-		{
-			newRec.setPhone(tempPhone);
-		}
-		else
+		if(!phoneMatch.matches())
 		{
 			AnomalyLogger.getInstance().Log(existing, AnomalyLogger.ErrorType.PHONE, "Problem with Phone");
 		}
+
+		newRec.setPhone(tempPhone);
 	}
 
 	private void verifyMMSEDateScores(NewParticipantRecord newRec, String tempScores) 
@@ -368,7 +379,7 @@ public class RecordParser {
 
 
 
-	private void parseAddress(NewParticipantRecord newRec, String tempAddress)
+	private void verifyAddress(NewParticipantRecord newRec, String tempAddress)
 	{
 		if (setAddressFieldsFromPattern(newRec, confidentPattern, tempAddress)) 
 		{
@@ -385,11 +396,15 @@ public class RecordParser {
 		else if (setAddressFieldsFromPattern(newRec, questionableCityPattern, tempAddress)) 
 		{
 			AnomalyLogger.getInstance().Log(existing, AnomalyLogger.ErrorType.ADDRESS, "possible bad city");
-			//		log(rawAddress.toString() + ": -- possible bad city");
 		} 
-		else 
+		else if (setAddressFieldsFromPattern(newRec, noStreetNumPattern, tempAddress)) 
+		{
+			AnomalyLogger.getInstance().Log(existing, AnomalyLogger.ErrorType.ADDRESS, "missing street number");
+		} 
+		else // all patterns failed
 		{
 			AnomalyLogger.getInstance().Log(existing, AnomalyLogger.ErrorType.ADDRESS, "Problem with Address");
+			newRec.setAddress(tempAddress);
 		}
 	}
 

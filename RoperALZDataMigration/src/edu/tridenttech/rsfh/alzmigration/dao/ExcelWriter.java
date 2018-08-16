@@ -98,22 +98,22 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 				cell = row.createCell(13);
 				cell.setCellValue(rd.getPhone());
 				
-				cell = row.createCell(14);
+				cell = row.createCell('R' - 'A');
 				cell.setCellValue(rd.getStatus());
 				
-				//cell = row.createCell(14);
-				//cell.setCellValue(rd.Deseased());
+				cell = row.createCell('S' - 'A');
+				cell.setCellValue(rd.getDead());
 				
-				cell = row.createCell(15);
+				cell = row.createCell('T' - 'A');
 				cell.setCellValue(rd.getPcp());
 				
-				cell = row.createCell(16);
+				cell = row.createCell('U' - 'A');
 				cell.setCellValue(rd.getSpec());
 				
-				cell = row.createCell(17);
+				cell = row.createCell('W' - 'A');
 				cell.setCellValue(rd.getReferal());
 				
-				cell = row.createCell(18);
+				cell = row.createCell('X' - 'A');
 				cell.setCellValue(rd.getMailing());
 				
 				
